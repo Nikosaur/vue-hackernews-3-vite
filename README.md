@@ -1,6 +1,6 @@
-# vue-hackernews-2.0
+# vue-hackernews-3.0
 
-HackerNews clone built with Vue 2.0 + vue-router + vuex, with server-side rendering.
+HackerNews clone originally built with Vue 2.0, now **migrated to Vue 3, Vite, TypeScript, and Pinia**, featuring Server-Side Rendering (SSR).
 
 <p align="center">
   <a href="https://vue-hn.herokuapp.com" target="_blank">
@@ -14,13 +14,17 @@ HackerNews clone built with Vue 2.0 + vue-router + vuex, with server-side render
 
 > Note: in practice, it is unnecessary to code-split for an app of this size (where each async chunk is only a few kilobytes), nor is it optimal to extract an extra CSS file (which is only 1kb) -- they are used simply because this is a demo app showcasing all the supported features.
 
-- Server Side Rendering
-  - Vue + vue-router + vuex working together
+- **Stack Upgrade**
+  - Vue 3 (Composition API)
+  - Vite (Fast HMR & Build)
+  - TypeScript
+  - Pinia (State Management)
+  - Vue Router 4
+- **Server Side Rendering**
+  - Vue 3 SSR + Vite SSR
   - Server-side data pre-fetching
   - Client-side state & DOM hydration
-  - Automatically inlines CSS used by rendered components only
   - Preload / prefetch resource hints
-  - Route-level code splitting
 - Progressive Web App
   - App manifest
   - Service worker
@@ -50,7 +54,7 @@ It is therefore not recommended to use this app as a reference for Vue SSR perfo
 
 ## Build Setup
 
-**Requires Node.js 7+**
+**Requires Node.js 16+**
 
 ``` bash
 # install dependencies
@@ -66,6 +70,4 @@ npm run build
 npm start
 ```
 
-## License
 
-MIT
