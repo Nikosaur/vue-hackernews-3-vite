@@ -90,33 +90,22 @@ watch(user, (newUser) => {
 }, { immediate: true })
 </script>
 
-<style scoped>
-.user-view {
-  background-color: #fff;
-  box-sizing: border-box;
-  padding: 2em 3em;
-}
-
-.user-view h1 {
-  margin: 0;
-  font-size: 1.5em;
-}
-
-.user-view .meta {
-  list-style-type: none;
-  padding: 0;
-}
-
-.user-view .label {
-  display: inline-block;
-  min-width: 4em;
-}
-
-.user-view .about {
-  margin: 1em 0;
-}
-
-.user-view .links a {
-  text-decoration: underline;
-}
+<style lang="stylus">
+.user-view
+  background-color #fff
+  box-sizing border-box
+  padding 2em 3em
+  h1
+    margin 0
+    font-size 1.5em
+  .meta
+    list-style-type none
+    padding 0
+  .label
+    display inline-block
+    min-width 4em
+  .about
+    margin 1em 0
+  .links a
+    text-decoration underline
 </style>
