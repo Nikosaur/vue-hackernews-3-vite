@@ -47,7 +47,7 @@ interface ItemData {
 
 const store = useMainStore()
 const route = useRoute()
-const loading = ref(true)
+const loading = ref(false)
 
 const itemId = computed(() => Number(route.params.id))
 const item = computed<ItemData | undefined>(() => store.items[itemId.value])

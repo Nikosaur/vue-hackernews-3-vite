@@ -87,9 +87,20 @@ function fail() {
   state.canSuccess = false
   return { start, set, get, increase, decrease, finish, pause, hide, fail }
 }
+
+defineExpose({
+  start,
+  finish,
+  fail,
+  set,
+  increase,
+  decrease,
+  pause,
+  hide
+})
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .progress
   position: fixed
   top: 0px

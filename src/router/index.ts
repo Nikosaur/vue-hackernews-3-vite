@@ -4,7 +4,7 @@ import ItemView from '../views/ItemView.vue'
 import UserView from '../views/UserView.vue'
 
 const routes = [
-  { path: '/', redirect: '/top/1' },
+  { path: '/', redirect: '/top' },
   {
     path: '/:type(top|new|show|ask|job)/:page(\\d+)?',
     component: NewsView,

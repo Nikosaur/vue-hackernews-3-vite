@@ -17,7 +17,7 @@
       </span>
       <span class="time">
         {{ timeAgo(item.time) }} ago
-      </span>
+      </span> 
       <span v-if="item.type !== 'job'" class="comments-link">
         | <RouterLink :to="'/item/' + item.id">{{ item.descendants }} comments</RouterLink>
       </span>
@@ -73,4 +73,6 @@ const host = utilHost
       text-decoration underline
       &:hover
         color #ff6600
+    .by
+      margin-right 3.5px
 </style>

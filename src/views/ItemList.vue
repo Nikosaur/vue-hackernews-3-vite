@@ -53,18 +53,14 @@ async function loadItems(to = page.value, from = -1) {
     return
   }
   
-  transition.value = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-  displayedPage.value = to
-  
-  // Fetch the items for the current page
   const activeIds = store.activeIds(to)
   await store.ENSURE_ACTIVE_ITEMS(activeIds)
-  
-  const items = store.activeItems(to)
-  displayedItems.value = items
+
+  transition.value = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+  displayedPage.value = to
+  displayedItems.value = store.activeItems(to)
 }
 
-// Watch for real-time updates
 let unwatchList: (() => void) | null = null
 
 onMounted(async () => {
@@ -72,8 +68,7 @@ onMounted(async () => {
   
   unwatchList = watchList(props.type, async (ids) => {
     store.lists[props.type] = ids
-    
-    // Pastikan activeIds adalah method di store
+
     const activeIds = store.activeIds ? store.activeIds(displayedPage.value) : []
     
     if (store.ENSURE_ACTIVE_ITEMS) {
@@ -127,24 +122,24 @@ watch(() => props.type, () => {
   position absolute
   margin 30px 0
   width 100%
-  transition all .5s ease
+  transition all .5s cubic-bezier(.55,0,.1,1)
   ul
     list-style-type none
     padding 0
     margin 0
 
-.slide-left-enter, .slide-right-leave-to
+.slide-left-enter-from, .slide-right-leave-to
   opacity 0
   transform translate(30px, 0)
 
-.slide-left-leave-to, .slide-right-enter
+.slide-left-leave-to, .slide-right-enter-from
   opacity 0
   transform translate(-30px, 0)
 
 .item-move, .item-enter-active, .item-leave-active
-  transition all .5s ease
+  transition all .5s cubic-bezier(.55,0,.1,1)
 
-.item-enter
+.item-enter-from
   opacity 0
   transform translate(30px, 0)
 

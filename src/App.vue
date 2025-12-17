@@ -21,6 +21,7 @@
       </nav>
     </header>
 
+    <ProgressBar ref="progressBar" />
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component" class="view" />
@@ -31,6 +32,27 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import ProgressBar from './components/ProgressBar.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const progressBar = ref<InstanceType<typeof ProgressBar> | null>(null)
+
+onMounted(() => {
+  router.beforeEach((to, from, next) => {
+    if (progressBar.value) {
+      progressBar.value.start()
+    }
+    next()
+  })
+
+  router.afterEach(() => {
+    if (progressBar.value) {
+      progressBar.value.finish()
+    }
+  })
+})
 </script>
 
 <style lang="stylus">

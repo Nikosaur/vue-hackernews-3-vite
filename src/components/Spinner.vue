@@ -29,9 +29,16 @@ $offset = 126
 $duration = 1.4s
 
 .spinner
+  transition opacity .15s ease
   animation rotator $duration linear infinite
-  animation-play-state running
-
+  animation-play-state paused
+  &.show
+    animation-play-state running
+  &.v-enter, &.v-leave-active
+    opacity 0
+  &.v-enter-active, &.v-leave
+    opacity 1
+    
 @keyframes rotator
   0%
     transform scale(0.5) rotate(0deg)
