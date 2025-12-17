@@ -69,7 +69,7 @@ const router = useRouter()
 const progressBar = ref<InstanceType<typeof ProgressBar> | null>(null)
 
 onMounted(() => {
-  router.beforeEach((to, from, next) => {
+  router.beforeEach((to, _from, next) => {
     if (progressBar.value) {
       progressBar.value.start()
     }

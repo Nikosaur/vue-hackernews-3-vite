@@ -7,18 +7,15 @@ import { useMainStore } from "./store"
 
 const { app, router, pinia } = createApp()
 
-// buat progress bar
 const barRoot = document.createElement("div")
 document.body.appendChild(barRoot)
 const bar = createVueApp(ProgressBar).mount(barRoot) as any
 app.config.globalProperties.$bar = bar
 
-// set Pinia aktif dan ambil store
 setActivePinia(pinia)
 const store = useMainStore()
 
 if ((window as any).__INITIAL_STATE__) {
-  // inject state awal ke store
   store.$state = (window as any).__INITIAL_STATE__
 }
 

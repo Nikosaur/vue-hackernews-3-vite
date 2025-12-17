@@ -1,7 +1,7 @@
 import { createApp } from "./app"
 import type { RouteRecordNormalized } from "vue-router"
 import { setActivePinia } from "pinia"
-import { useMainStore } from "./store" // ganti dengan store-mu
+import { useMainStore } from "./store"
 
 interface RenderContext {
   url: string
@@ -14,7 +14,6 @@ export async function render(context: RenderContext) {
   router.push(context.url)
   await router.isReady()
 
-  // set Pinia aktif untuk SSR
   setActivePinia(pinia)
   const store = useMainStore()
 

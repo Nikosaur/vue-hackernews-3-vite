@@ -1,10 +1,10 @@
 <template>
   <div class="news-view">
     <div class="news-list-nav">
-      <RouterLink v-if="page > 1" :to="'/' + type + '/' + (page - 1)">&lt; prev</RouterLink>
+      <RouterLink v-if="page > 1" :to="'/' + props.type + '/' + (page - 1)">&lt; prev</RouterLink>
       <a v-else class="disabled">&lt; prev</a>
       <span>{{ page }}/{{ maxPage }}</span>
-      <RouterLink v-if="hasMore" :to="'/' + type + '/' + (page + 1)">more &gt;</RouterLink>
+      <RouterLink v-if="hasMore" :to="'/' + props.type + '/' + (page + 1)">more &gt;</RouterLink>
       <a v-else class="disabled">more &gt;</a>
     </div>
 
@@ -48,27 +48,30 @@ const hasMore = computed(() => page.value < maxPage.value)
 async function loadItems(to = page.value, from = -1) {
   await store.FETCH_LIST_DATA(props.type)
   
-  if (to < 1 || to > maxPage.value) {
+  if (maxPage.value > 0 && (to < 1 || to > maxPage.value)) {
     router.replace(`/${props.type}/1`)
     return
   }
   
+  console.log(`Loading items for ${props.type} page ${to}`)
   const activeIds = store.activeIds(to)
   await store.ENSURE_ACTIVE_ITEMS(activeIds)
 
   transition.value = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
   displayedPage.value = to
   displayedItems.value = store.activeItems(to)
+  document.title = `Vue HN 3.0 | ${props.type.charAt(0).toUpperCase() + props.type.slice(1)}`
 }
 
 let unwatchList: (() => void) | null = null
 
-onMounted(async () => {
-  await loadItems(displayedPage.value)
+const setupDataSource = async () => {
+  unwatchList?.()
+  
+  await loadItems(page.value)
   
   unwatchList = watchList(props.type, async (ids) => {
     store.lists[props.type] = ids
-
     const activeIds = store.activeIds ? store.activeIds(displayedPage.value) : []
     
     if (store.ENSURE_ACTIVE_ITEMS) {
@@ -79,20 +82,25 @@ onMounted(async () => {
       .map(id => store.items[id])
       .filter(Boolean) as ItemType[]
   })
+}
+
+onMounted(() => {
+  setupDataSource()
 })
 
 onUnmounted(() => {
   unwatchList?.()
 })
 
-// Update items when route page changes
 watch(() => route.params.page, (to, from) => {
-  loadItems(Number(to) || 1, Number(from) || -1)
+  const toPage = Number(to) || 1
+  const fromPage = Number(from) || 1
+  loadItems(toPage, fromPage)
 })
 
-// Watch route type changes
 watch(() => props.type, () => {
-  loadItems(1)
+  // handled by component remount usually, but safe to keep
+  setupDataSource()
 })
 </script>
 

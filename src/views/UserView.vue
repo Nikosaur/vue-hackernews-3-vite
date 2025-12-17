@@ -23,7 +23,6 @@ import { computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMainStore } from '../store'
 
-// Types
 interface User {
   id: string
   created: number
@@ -34,13 +33,11 @@ interface User {
 const route = useRoute()
 const store = useMainStore()
 
-// Computed - akses users langsung dari store, bukan store.state
 const user = computed<User | null>(() => {
   const userId = route.params.id as string
   return store.users[userId] || null
 })
 
-// Helper function untuk timeAgo
 const timeAgo = (time: number): string => {
   const between = Date.now() / 1000 - Number(time)
   if (between < 3600) {
@@ -59,7 +56,6 @@ const pluralize = (time: number, label: string): string => {
   return time + label + 's'
 }
 
-// Fetch user data on mount and when route changes
 const fetchUser = async () => {
   const userId = route.params.id as string
   if (userId) {
@@ -67,7 +63,6 @@ const fetchUser = async () => {
   }
 }
 
-// Watch route changes
 watch(
   () => route.params.id,
   () => {
@@ -75,19 +70,17 @@ watch(
   }
 )
 
-// Initial fetch
 onMounted(() => {
   fetchUser()
 })
 
-// Update document title
 watch(user, (newUser) => {
   if (newUser) {
-    document.title = newUser.id
+    document.title = `Vue HN 3.0 | ${newUser.id}`;
   } else {
-    document.title = 'User not found'
+    document.title = 'Vue HN 3.0 | User not found';
   }
-}, { immediate: true })
+}, { immediate: true });
 </script>
 
 <style lang="stylus">

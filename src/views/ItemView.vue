@@ -33,7 +33,6 @@ import { useMainStore } from '../store'
 import Spinner from '../components/Spinner.vue'
 import Comment from '../components/Comment.vue'
 
-// Types
 interface ItemData {
   id: number
   title: string
@@ -52,7 +51,6 @@ const loading = ref(false)
 const itemId = computed(() => Number(route.params.id))
 const item = computed<ItemData | undefined>(() => store.items[itemId.value])
 
-// Helper function untuk extract hostname dari URL
 function getHostName(url: string): string {
   try {
     const urlObj = new URL(url)
@@ -62,7 +60,6 @@ function getHostName(url: string): string {
   }
 }
 
-// Helper function untuk timeAgo
 function timeAgo(time: number): string {
   const between = Date.now() / 1000 - Number(time)
   if (between < 3600) {
@@ -108,6 +105,7 @@ async function loadItemData(id: number) {
     await store.FETCH_ITEMS([id])
     
     if (item.value) {
+      document.title = `Vue HN 3.0 | ${item.value.title}`
       await fetchComments(item.value)
     } 
   } 
