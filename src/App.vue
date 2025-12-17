@@ -41,7 +41,7 @@
         </RouterLink>
         <a
           class="github"
-          href="https://v3-migration.vuejs.org/"
+          href="https://github.com/Nikosaur/vue-hackernews-3-vite"
           target="_blank"
           rel="noopener"
         >
@@ -69,7 +69,7 @@ const router = useRouter()
 const progressBar = ref<InstanceType<typeof ProgressBar> | null>(null)
 
 onMounted(() => {
-  router.beforeEach((to, _from, next) => {
+  router.beforeEach((_to, _from, next) => {
     if (progressBar.value) {
       progressBar.value.start()
     }
@@ -147,7 +147,7 @@ a
 .fade-enter-active, .fade-leave-active
   transition all .3s ease
 
-.fade-enter, .fade-leave-active
+.fade-enter-from, .fade-leave-to
   opacity 0
 
 @media (max-width 860px)

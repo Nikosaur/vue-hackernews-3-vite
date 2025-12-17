@@ -4,6 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: '/Vue-HN-3',
     plugins: [vue()],
     resolve: {
         alias: {
@@ -20,14 +21,10 @@ export default defineConfig({
     },
     build: {
         manifest: true,
-        ssrManifest: true,
         rollupOptions: {
             input: {
                 main: path.resolve(__dirname, 'index.html')
             }
         }
     },
-    ssr: {
-        noExternal: ['firebase']
-    }
 })

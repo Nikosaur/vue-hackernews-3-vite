@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { useRoute, useRouter, RouterLink, onBeforeRouteUpdate } from 'vue-router'
 import { useMainStore, Item as ItemType } from '../store'
 import { watchList } from '../api'
 import Item from '../components/Item.vue'
@@ -46,6 +46,7 @@ const maxPage = computed(() => {
 const hasMore = computed(() => page.value < maxPage.value)
 
 async function loadItems(to = page.value, from = -1) {
+  window.scrollTo(0, 0)
   await store.FETCH_LIST_DATA(props.type)
   
   if (maxPage.value > 0 && (to < 1 || to > maxPage.value)) {
@@ -92,15 +93,23 @@ onUnmounted(() => {
   unwatchList?.()
 })
 
-watch(() => route.params.page, (to, from) => {
-  const toPage = Number(to) || 1
-  const fromPage = Number(from) || 1
-  loadItems(toPage, fromPage)
+// Watch for type changes (navigation between top/new/show/ask/job)
+watch(() => props.type, (newType, oldType) => {
+  if (newType !== oldType) {
+    console.log(`Type changed from ${oldType} to ${newType}`)
+    setupDataSource()
+  }
 })
 
-watch(() => props.type, () => {
-  // handled by component remount usually, but safe to keep
-  setupDataSource()
+// Watch for page changes within the same type
+watch(() => route.params.page, (newPage, oldPage) => {
+  const toPage = Number(newPage) || 1
+  const fromPage = Number(oldPage) || 1
+  
+  if (toPage !== fromPage) {
+    console.log(`Page changed from ${fromPage} to ${toPage}`)
+    loadItems(toPage, fromPage)
+  }
 })
 </script>
 
