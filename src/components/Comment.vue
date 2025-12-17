@@ -10,6 +10,8 @@
         {{ open ? '[-]' : '[+] ' + pluralize(comment.kids.length) + ' collapsed' }}
       </a>
     </div>
+    
+    <!-- Child comments -->
     <ul class="comment-children" v-show="open">
       <Comment v-for="id in comment.kids" :key="id" :id="id" />
     </ul>
@@ -17,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineComponent } from "vue"
+import { ref, computed } from "vue" // Hapus defineComponent
 import { useMainStore, Item } from '../store'
 import { timeAgo as utilTimeAgo } from '../util/filters'
 import { RouterLink } from "vue-router"
@@ -35,21 +37,23 @@ const comment = computed(() => store.items[props.id] as Item | undefined)
 const pluralize = (n: number) => n + (n === 1 ? " reply" : " replies")
 const timeAgo = utilTimeAgo
 
-// recursive component registration
-const Comment = defineComponent({
-  name: "Comment",
-  setup: () => ({})
-})
+// TIDAK PERLU defineComponent manual di sini untuk <script setup>
 </script>
 
 <style lang="stylus">
 .comment-children
-  .comment-children
-    margin-left 1.5em
+  list-style-type none
+  padding 0
+  margin 0
 
 .comment
   border-top 1px solid #eee
   position relative
+  
+  // Indentasi Child Comment
+  .comment-children
+    margin-left 1.5em  /* Ini kuncinya agar menjorok ke dalam */
+    
   .by, .text, .toggle
     font-size .9em
     margin 1em 0

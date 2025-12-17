@@ -5,11 +5,40 @@
         <RouterLink to="/" exact>
           <img class="logo" src="/logo-48.png" alt="logo" />
         </RouterLink>
-        <RouterLink to="/top">Top</RouterLink>
-        <RouterLink to="/new">New</RouterLink>
-        <RouterLink to="/show">Show</RouterLink>
-        <RouterLink to="/ask">Ask</RouterLink>
-        <RouterLink to="/job">Jobs</RouterLink>
+        <RouterLink 
+          to="/top"
+          :class="{ 'router-link-active': $route.path.includes('/top') }"
+        >
+          Top
+        </RouterLink>
+
+        <RouterLink 
+          to="/new" 
+          :class="{ 'router-link-active': $route.path.includes('/new') }"
+        >
+          New
+        </RouterLink>
+
+        <RouterLink 
+          to="/show" 
+          :class="{ 'router-link-active': $route.path.includes('/show') }"
+        >
+          Show
+        </RouterLink>
+
+        <RouterLink 
+          to="/ask" 
+          :class="{ 'router-link-active': $route.path.includes('/ask') }"
+        >
+          Ask
+        </RouterLink>
+
+        <RouterLink 
+          to="/job" 
+          :class="{ 'router-link-active': $route.path.includes('/job') }"
+        >
+          Jobs
+        </RouterLink>
         <a
           class="github"
           href="https://v3-migration.vuejs.org/"

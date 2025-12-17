@@ -83,16 +83,13 @@ function pluralize(time: number, label: string): string {
 
 async function fetchComments(currentItem: ItemData | undefined): Promise<void> {
   if (!currentItem || !currentItem.kids?.length) {
-    loading.value = false
     return
   }
 
-  loading.value = true
   
   try {
     await store.FETCH_ITEMS(currentItem.kids)
     
-    // Fetch nested comments recursively
     const commentPromises = currentItem.kids.map(id => {
       const commentItem = store.items[id] as ItemData | undefined
       return fetchComments(commentItem)
@@ -101,42 +98,33 @@ async function fetchComments(currentItem: ItemData | undefined): Promise<void> {
     await Promise.all(commentPromises)
   } catch (error) {
     console.error('Error fetching comments:', error)
-  } finally {
+  }
+}
+
+async function loadItemData(id: number) {
+  loading.value = true
+
+  try {
+    await store.FETCH_ITEMS([id])
+    
+    if (item.value) {
+      await fetchComments(item.value)
+    } 
+  } 
+  catch (error) {
+    console.error('Error loading item:', error)
+  }
+  finally {
     loading.value = false
   }
 }
 
-onMounted(async () => {
-  loading.value = true
-  
-  try {
-    // Fetch the main item first
-    await store.FETCH_ITEMS([itemId.value])
-    
-    // Then fetch its comments
-    if (item.value) {
-      await fetchComments(item.value)
-    }
-  } catch (error) {
-    console.error('Error loading item:', error)
-    loading.value = false
-  }
+onMounted(() => {
+  loadItemData(itemId.value)
 })
-
-// Watch for item changes (e.g., when navigating to a different item)
-watch(itemId, async (newId) => {
-  loading.value = true
   
-  try {
-    await store.FETCH_ITEMS([newId])
-    
-    if (item.value) {
-      await fetchComments(item.value)
-    }
-  } catch (error) {
-    console.error('Error loading item:', error)
-    loading.value = false
-  }
+watch(itemId, async (newId) => {
+  loadItemData(newId)
 })
 </script>
 
@@ -177,5 +165,8 @@ watch(itemId, async (newId) => {
 @media (max-width 600px)
   .item-view-header
     h1
-      font-size 1.25em
+      font-size 1.25emz
+.space
+  display inline
+  width 0.25em
 </style>
