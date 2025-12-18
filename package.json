@@ -12,8 +12,8 @@
     "preview": "vite preview"
   },
   "engines": {
-    "node": ">=7.0",
-    "npm": ">=4.0"
+    "node": ">=18.0",
+    "npm": ">=8.0"
   },
   "dependencies": {
     "compression": "^1.8.1",
