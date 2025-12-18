@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: '/Vue-HN-3',
+    base: '/',
     plugins: [vue()],
     resolve: {
         alias: {
@@ -20,7 +20,7 @@ export default defineConfig({
         }
     },
     build: {
-        manifest: true,
+        outDir: 'dist/client',
         rollupOptions: {
             input: {
                 main: path.resolve(__dirname, 'index.html')
