@@ -50,7 +50,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/Vue-HN-3/'),
+  history: createWebHistory('/'),
   routes,
   scrollBehavior: (_to, _from, savedPosition) => {
     if (savedPosition) {
